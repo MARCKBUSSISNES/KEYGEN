@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KeyGen Marck Business</title>
+
+<style>
+  body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(180deg,#06101b,#081523,#050b12);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+  }
+
+  .card{
+    width:100%;
+    max-width:420px;
+    background:#0d1b2a;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+    border:1px solid rgba(255,255,255,.08);
+  }
+
+  .title{
+    font-size:24px;
+    font-weight:900;
+    margin-bottom:5px;
+  }
+
+  .sub{
+    color:#94a3b8;
+    font-size:13px;
+    margin-bottom:20px;
+  }
+
+  input{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:none;
+    outline:none;
+    background:#0b1725;
+    color:#fff;
+    margin-bottom:12px;
+    font-size:14px;
+  }
+
+  button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    font-weight:900;
+    cursor:pointer;
+    font-size:14px;
+    margin-top:5px;
+  }
+
+  .btn{
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:#052e16;
+  }
+
+  .result{
+    margin-top:15px;
+    padding:14px;
+    background:#081523;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.08);
+    font-family:monospace;
+    font-size:14px;
+    word-break:break-word;
+  }
+
+  .copy{
+    background:#0b1725;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.1);
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="title">🔐 KeyGen Licencias</div>
+  <div class="sub">Marck Business • Generador de activaciones</div>
+
+  <input id="deviceId" placeholder="Pega aquí el ID del dispositivo">
+
+  <button class="btn" onclick="generar()">Generar licencia</button>
+
+  <div id="resultado" class="result">---</div>
+
+  <button class="copy" onclick="copiar()">Copiar licencia</button>
+</div>
+
+<script>
+function generarLicencia(deviceId){
+  const secret = "MARCKBUSINESS2026";
+
+  let hash = 0;
+  const str = deviceId + secret;
+
+  for(let i=0;i<str.length;i++){
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash |= 0;
+  }
+
+  return "LIC-" + Math.abs(hash).toString(16).toUpperCase().padStart(8,'0');
+}
+
+function generar(){
+  const id = document.getElementById("deviceId").value.trim();
+
+  if(!id){
+    alert("Ingresa el ID del dispositivo");
+    return;
+  }
+
+  const licencia = generarLicencia(id);
+  document.getElementById("resultado").textContent = licencia;
+}
+
+function copiar(){
+  const txt = document.getElementById("resultado").textContent;
+
+  if(txt === "---"){
+    alert("Genera primero una licencia");
+    return;
+  }
+
+  navigator.clipboard.writeText(txt);
+  alert("Licencia copiada");
+}
+</script>
+
+</body>
+</html>
